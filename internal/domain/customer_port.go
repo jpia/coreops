@@ -1,6 +1,6 @@
 package domain
 
 type CustomerPort interface {
-    FindCustomer(lastName string) ([]Customer, error)
-    NewCustomer(c Customer) error
+	SearchCustomer(lastName string) ([]Customer, error)
+	CreateCustomer(c Customer) error
 }

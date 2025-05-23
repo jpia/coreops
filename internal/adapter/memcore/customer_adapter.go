@@ -12,29 +12,24 @@ type MemCoreAdapter struct {
 }
 
 func NewMemCoreAdapter() *MemCoreAdapter {
-    return &MemCoreAdapter{
-        customers: make([]domain.Customer, 0),
-    }
+    return &MemCoreAdapter{}
 }
 
-func (a *MemCoreAdapter) NewCustomer(c domain.Customer) error {
+func (a *MemCoreAdapter) CreateCustomer(c domain.Customer) error {
     a.mu.Lock()
     defer a.mu.Unlock()
-
     a.customers = append(a.customers, c)
     return nil
 }
 
-func (a *MemCoreAdapter) FindCustomer(lastName string) ([]domain.Customer, error) {
+func (a *MemCoreAdapter) SearchCustomer(lastName string) ([]domain.Customer, error) {
     a.mu.RLock()
     defer a.mu.RUnlock()
-
-    var results []domain.Customer
+    var result []domain.Customer
     for _, c := range a.customers {
         if strings.Contains(strings.ToLower(c.LastName), strings.ToLower(lastName)) {
-            results = append(results, c)
+            result = append(result, c)
         }
     }
-
-    return results, nil
+    return result, nil
 }
